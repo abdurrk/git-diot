@@ -1,0 +1,2 @@
+# git-diot
+diot git 
