@@ -1,0 +1,31 @@
+version : '3'
+services:
+    mqttbroker:
+        image: eclipse-mosquitto
+        hostname: mosquitto
+        #container_name: mqtt7
+        networks:
+            - default
+        expose:
+            - "1883"
+    #       -"9001"
+        volumes:
+            - /home/diot/cloud/pub-sub/mosqconf/mosquitto.conf:/mosquitto/config/mosquitto.conf
+        ports:
+            - "5010:1883"
+    #       - "5012:9001"
+    publisher:
+        build: ./pub_client
+        container_name: publisher
+        hostname: mqttpublisher
+        depends_on:
+            - mqttbroker
+            - subscriber
+    subscriber:
+        build: ./subscriber
+        container_name: subscriber
+        hostname: subscriber
+        depends_on:
+            - mqttbroker
+           
+        
